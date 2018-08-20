@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+
 import HelloWorld from '@/components/HelloWorld'
+import Directory from '@/components/Directory'
 
 Vue.use(Router)
 
@@ -11,7 +13,8 @@ export default new Router({
       name: 'groups',
       path: '/',
       redirect: '/groups',
-      component: HelloWorld
+      component: Directory,
+      props: { what: 'groups' }
     },
 
     // Specific group
@@ -25,7 +28,8 @@ export default new Router({
     {
       name: 'people',
       path: '/people',
-      component: HelloWorld
+      component: Directory,
+      props: { what: 'people' }
     },
 
     // Specific person
