@@ -11,8 +11,8 @@ export default new Router({
     // Group overview and landing page
     {
       name: 'groups',
-      path: '/',
-      redirect: '/groups',
+      path: '/groups',
+      alias: '/',
       component: Directory,
       props: { what: 'groups' }
     },
