@@ -6,8 +6,8 @@
 
     <b-collapse is-nav id="nav_collapse">
       <b-navbar-nav>
-        <b-nav-item to="groups">Groups</b-nav-item>
-        <b-nav-item to="people">People</b-nav-item>
+        <b-nav-item :to="{name: 'directory', params: {what: 'groups'}}">Groups</b-nav-item>
+        <b-nav-item :to="{name: 'directory', params: {what: 'people'}}">People</b-nav-item>
       </b-navbar-nav>
 
       <!-- TODO: Add search as a future enhancement...

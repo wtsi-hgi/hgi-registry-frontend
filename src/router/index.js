@@ -8,13 +8,12 @@ Vue.use(Router)
 
 export default new Router({
   routes: [
-    // Group overview and landing page
+    // Directory
     {
-      name: 'groups',
-      path: '/groups',
-      alias: '/',
+      name: 'directory',
+      path: '/:what',
       component: Directory,
-      props: { what: 'groups' }
+      props: true
     },
 
     // Specific group
@@ -23,14 +22,6 @@ export default new Router({
       path: '/groups/:id',
       component: HelloWorld,
       props: true
-    },
-
-    // People overview
-    {
-      name: 'people',
-      path: '/people',
-      component: Directory,
-      props: { what: 'people' }
     },
 
     // Specific person
