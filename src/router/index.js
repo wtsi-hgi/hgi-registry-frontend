@@ -7,7 +7,13 @@ import Directory from '@/components/Directory'
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
+    {
+      path: '/',
+      redirect: '/groups'
+    },
+
     // Directory
     {
       name: 'directory',
