@@ -2,7 +2,6 @@
   <div id="app">
     <NavBar/>
     <router-view/>
-    <b-button>Hello</b-button>
   </div>
 </template>
 
