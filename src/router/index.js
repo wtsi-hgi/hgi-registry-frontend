@@ -21,7 +21,8 @@ export default new Router({
     {
       name: 'group',
       path: '/groups/:id',
-      component: HelloWorld
+      component: HelloWorld,
+      props: true
     },
 
     // People overview
@@ -36,7 +37,8 @@ export default new Router({
     {
       name: 'person',
       path: '/people/:id',
-      component: HelloWorld
+      component: HelloWorld,
+      props: true
     }
   ]
 })
