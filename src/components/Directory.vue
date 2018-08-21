@@ -1,10 +1,13 @@
 <template>
   <div>
-    <ul>
-      <li v-for="item in directories[what]" :key="item.href">
-        <b-link :to="{name: item.rel, params: {id: extractIdFromHref(item.href)}}">{{ item.value }}</b-link>
-      </li>
-    </ul>
+    <div v-for="bin in Object.keys(directories[what]).sort()" :key="bin">
+      <h1 :title="`${directories[what][bin].length} entries`">{{ bin }}</h1>
+      <ul>
+        <li v-for="item in directories[what][bin]" :key="item.href">
+          <b-link :to="{name: item.rel, params: {id: extractIdFromHref(item.href)}}">{{ item.value }}</b-link>
+        </li>
+      </ul>
+    </div>
 
     <LastUpdated :when="lastUpdated[what]" />
   </div>
@@ -39,16 +42,29 @@ export default {
         axios.get(`http://localhost:5000/${directory}`).then((response) => {
           if (response.status === 200) {
             this.$set(this.lastUpdated, directory, Date.now())
-            this.$set(this.directories, directory, response.data.sort(orderBy('value')))
+
+            // Create directory, binned by first letter
+            var binned = {}
+            response.data.sort(orderBy('value')).forEach((item) => {
+              var firstLetter = item.value[0].toUpperCase()
+              if (firstLetter < 'A' || firstLetter > 'Z') {
+                firstLetter = '#'
+              }
+
+              if (!binned.hasOwnProperty(firstLetter)) {
+                binned[firstLetter] = []
+              }
+
+              binned[firstLetter].push(item)
+            })
+            this.$set(this.directories, directory, binned)
           }
         })
       }
     },
 
-    extractIdFromHref (href) {
-      // This is a bit of an oversight in the API design
-      return path.basename(href)
-    }
+    // This is a bit of an oversight in the API design
+    extractIdFromHref: path.basename
   },
   data () {
     return {
