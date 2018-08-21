@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-for="bin in Object.keys(directories[what]).sort()" :key="bin">
+    <div v-for="bin in Object.keys(directories[what] || {}).sort()" :key="bin">
       <h1 :title="`${directories[what][bin].length} entries`">{{ bin }}</h1>
       <ul>
         <li v-for="item in directories[what][bin]" :key="item.href">
