@@ -36,7 +36,7 @@ export default {
     }
   },
   created () {
-    timer = setInterval(() => { this.now = Date.now() }, 1000)
+    timer = setInterval(() => { this.now = Date.now() }, 20000)
   },
   destroyed () {
     clearInterval(timer)
