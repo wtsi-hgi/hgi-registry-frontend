@@ -108,6 +108,7 @@ export default {
 
   #directory-scroller {
     height: 500px;
+    position: relative;
     overflow-y: scroll;
   }
 
