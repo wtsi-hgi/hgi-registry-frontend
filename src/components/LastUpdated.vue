@@ -1,5 +1,5 @@
 <template>
-  <div :title="updateTime">Last updated {{ fuzzyDuration() }}.</div>
+  <div class="last-updated text-muted" :title="updateTime">Last updated {{ fuzzyDuration() }}</div>
 </template>
 
 <script>
@@ -43,3 +43,11 @@ export default {
   }
 }
 </script>
+
+<style>
+  div.last-updated {
+    text-align: right;
+    margin: 0.5em 0em 0em 0em;
+    font-size: small;
+  }
+</style>
