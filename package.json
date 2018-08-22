@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Human Genetics Programme project and team group registry frontend",
   "author": "Christopher Harrison <ch12@sanger.ac.uk>",
+  "license": "AGPLv3",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",

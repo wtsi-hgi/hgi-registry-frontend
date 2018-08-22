@@ -1,8 +1,11 @@
-# hgi-registry-frontend
+# Web Frontend for the Human Genetics Programme Registry API
 
-> Human Genetics Programme project and team group registry frontend
+A web-based frontend for the
+[Human Genetics Programme Registry API](https://github.com/wtsi-hgi/hgi-registry).
 
 ## Build Setup
+
+<!-- TODO -->
 
 ``` bash
 # install dependencies
@@ -17,5 +20,3 @@ npm run build
 # build for production and view the bundle analyzer report
 npm run build --report
 ```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
