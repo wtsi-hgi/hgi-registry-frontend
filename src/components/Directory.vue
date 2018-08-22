@@ -1,13 +1,28 @@
 <template>
-  <div>
-    <div v-for="bin in Object.keys(directories[what] || {}).sort()" :key="bin">
-      <h1 :title="`${directories[what][bin].length} entries`">{{ bin }}</h1>
-      <ul>
-        <li v-for="item in directories[what][bin]" :key="item.href">
-          <b-link :to="{name: item.rel, params: {id: extractIdFromHref(item.href)}}">{{ item.value }}</b-link>
-        </li>
-      </ul>
-    </div>
+  <div id="directory-viewport">
+    <b-card id="directory" no-body>
+      <b-nav pills slot="header" v-b-scrollspy:directory-scroller>
+        <b-nav-item v-for="bin in getBins(what)" :key="bin" :href="`#${binIndex(bin)}`">
+          {{ bin }}
+        </b-nav-item>
+      </b-nav>
+
+      <b-card-body id="directory-scroller">
+        <div v-for="bin in getBins(what)" :key="bin">
+          <h1 :id="binIndex(bin)" :title="`${directories[what][bin].length} entries`">
+            {{ bin }}
+          </h1>
+
+          <ul id="directory-list">
+            <li v-for="item in directories[what][bin]" :key="item.href">
+              <b-link :to="{name: item.rel, params: {id: extractIdFromHref(item.href)}}">
+                {{ item.value }}
+              </b-link>
+            </li>
+          </ul>
+        </div>
+      </b-card-body>
+    </b-card>
 
     <LastUpdated :when="lastUpdated[what]" />
   </div>
@@ -63,6 +78,14 @@ export default {
       }
     },
 
+    getBins (directory) {
+      return Object.keys(this.directories[directory] || {}).sort()
+    },
+
+    binIndex (bin) {
+      return 'index-' + (bin === '#' ? 'symbols' : bin)
+    },
+
     // This is a bit of an oversight in the API design
     extractIdFromHref: path.basename
   },
@@ -78,5 +101,18 @@ export default {
 </script>
 
 <style>
+  #directory {
+    height: 90vh;
+    overflow: auto;
+  }
 
+  #directory-scroller {
+    height: 500px;
+    overflow-y: scroll;
+  }
+
+  #directory-list {
+    padding-left: 0px;
+    list-style-type: none;
+  }
 </style>
