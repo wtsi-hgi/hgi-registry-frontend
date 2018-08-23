@@ -24,6 +24,11 @@
       </b-card-body>
     </b-card>
 
+    <!-- TODO Make this a component -->
+    <b-modal ref="apiError" centered ok-only hide-header-close title="API Error">
+      Could not fetch data from the API server.
+    </b-modal>
+
     <LastUpdated :when="lastUpdated[what]" />
   </div>
 </template>
@@ -54,27 +59,37 @@ export default {
       if (!this.directories[directory] || !lastUpdated || Date.now() - lastUpdated > fiveMinutes) {
         // TODO Thread API URL through application, rather than hardcode
         // TODO Be defensive about API endpoint, rather than allow all
-        axios.get(`http://localhost:5000/${directory}`).then((response) => {
-          if (response.status === 200) {
-            this.$set(this.lastUpdated, directory, Date.now())
+        document.body.style.cursor = 'wait'
+        axios.get(`http://localhost:5000/${directory}`)
+          .then((response) => {
+            if (response.status === 200) {
+              this.$set(this.lastUpdated, directory, Date.now())
 
-            // Create directory, binned by first letter
-            var binned = {}
-            response.data.sort(orderBy('value')).forEach((item) => {
-              var firstLetter = item.value[0].toUpperCase()
-              if (firstLetter < 'A' || firstLetter > 'Z') {
-                firstLetter = '#'
-              }
+              // Create directory, binned by first letter
+              var binned = {}
+              response.data.sort(orderBy('value')).forEach((item) => {
+                var firstLetter = item.value[0].toUpperCase()
+                if (firstLetter < 'A' || firstLetter > 'Z') {
+                  firstLetter = '#'
+                }
 
-              if (!binned.hasOwnProperty(firstLetter)) {
-                binned[firstLetter] = []
-              }
+                if (!binned.hasOwnProperty(firstLetter)) {
+                  binned[firstLetter] = []
+                }
 
-              binned[firstLetter].push(item)
-            })
-            this.$set(this.directories, directory, binned)
-          }
-        })
+                binned[firstLetter].push(item)
+              })
+              this.$set(this.directories, directory, binned)
+            }
+          })
+          .catch((error) => {
+            // TODO Something better...
+            this.$refs.apiError.show()
+            console.log(error)
+          })
+          .then(() => {
+            document.body.style.cursor = 'default'
+          })
       }
     },
 
