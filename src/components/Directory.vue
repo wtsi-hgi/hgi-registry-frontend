@@ -24,12 +24,14 @@
       </b-card-body>
     </b-card>
 
+    <div id="last-updated-container">
+      <LastUpdated :when="lastUpdated[what]" />
+    </div>
+
     <!-- TODO Make this a component -->
     <b-modal ref="apiError" centered ok-only hide-header-close title="API Error">
       Could not fetch data from the API server.
     </b-modal>
-
-    <LastUpdated :when="lastUpdated[what]" />
   </div>
 </template>
 
@@ -116,8 +118,13 @@ export default {
 </script>
 
 <style>
+  #directory-viewport {
+    height: calc(100vh - 76px);
+    overflow: auto;
+  }
+
   #directory {
-    height: 90vh;
+    height: 100%;
     overflow: auto;
   }
 
@@ -130,5 +137,12 @@ export default {
   #directory-list {
     padding-left: 0px;
     list-style-type: none;
+  }
+
+  #last-updated-container {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    padding: 20px;
   }
 </style>
