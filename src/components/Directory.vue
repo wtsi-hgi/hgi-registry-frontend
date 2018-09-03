@@ -53,6 +53,7 @@ export default {
   name: 'Directory',
   components: { LastUpdated },
   props: [ 'what' ],
+
   methods: {
     updateDirectory () {
       var directory = this.what
@@ -106,12 +107,14 @@ export default {
     // This is a bit of an oversight in the API design
     extractIdFromHref: path.basename
   },
+
   data () {
     return {
       lastUpdated: {},
       directories: {}
     }
   },
+
   mounted () { this.updateDirectory() },
   watch: { '$route': 'updateDirectory' }
 }
@@ -144,5 +147,6 @@ export default {
     bottom: 0px;
     right: 0px;
     padding: 20px;
+    font-size: small;
   }
 </style>
