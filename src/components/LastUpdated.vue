@@ -1,5 +1,5 @@
 <template>
-  <div class="last-updated muted">
+  <div class="last-updated text-muted">
     <span v-if="!isNaN(when)" :title="updateTime">Last updated {{ fuzzyDuration() }}</span>
     <span v-else>Loading...</span>
   </div>
