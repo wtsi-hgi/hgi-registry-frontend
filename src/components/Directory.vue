@@ -5,6 +5,10 @@
         <b-nav-item v-for="bin in getBins(what)" :key="bin" :href="`#${binIndex(bin)}`">
           {{ bin }}
         </b-nav-item>
+
+        <b-nav-form id="directory-filter">
+          <b-form-input type="text" placeholder="Filter" v-model="filters[what]" />
+        </b-nav-form>
       </b-nav>
 
       <b-card-body id="directory-scroller">
@@ -14,7 +18,7 @@
           </h1>
 
           <ul id="directory-list">
-            <li v-for="item in directories[what][bin]" :key="item.href">
+            <li v-for="item in directories[what][bin]" v-if="isFilterMatch(item.value)" :key="item.href">
               <b-link :to="{name: item.rel, params: {id: extractIdFromHref(item.href)}}">
                 {{ item.value }}
               </b-link>
@@ -104,6 +108,16 @@ export default {
       return 'index-' + (bin === '#' ? 'symbols' : bin)
     },
 
+    isFilterMatch (data) {
+      var filter = this.filters[this.what]
+
+      if (filter) {
+        return data.toLowerCase().indexOf(filter.toLowerCase()) !== -1
+      }
+
+      return true
+    },
+
     // This is a bit of an oversight in the API design
     extractIdFromHref: path.basename
   },
@@ -111,7 +125,8 @@ export default {
   data () {
     return {
       lastUpdated: {},
-      directories: {}
+      directories: {},
+      filters: {}
     }
   },
 
@@ -129,6 +144,11 @@ export default {
   #directory {
     height: 100%;
     overflow: auto;
+  }
+
+  #directory-filter {
+    position: absolute;
+    right: 10px;
   }
 
   #directory-scroller {
