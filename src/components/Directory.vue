@@ -2,7 +2,7 @@
   <div id="directory-viewport">
     <b-card id="directory" no-body>
       <b-nav pills slot="header" v-b-scrollspy:directory-scroller>
-        <b-nav-item v-for="bin in getBins(what)" :key="bin" :href="`#${binIndex(bin)}`">
+        <b-nav-item v-for="bin in getBins(what)" v-if="binSize(bin)" :key="bin" :href="`#${binIndex(bin)}`">
           {{ bin }}
         </b-nav-item>
 
@@ -12,13 +12,13 @@
       </b-nav>
 
       <b-card-body id="directory-scroller">
-        <div v-for="bin in getBins(what)" :key="bin">
-          <h1 :id="binIndex(bin)" :title="`${directories[what][bin].length} entries`">
+        <div v-for="bin in getBins(what)" v-if="binSize(bin)" :key="bin">
+          <h1 :id="binIndex(bin)" :title="`${binSize(bin)} entries`">
             {{ bin }}
           </h1>
 
           <ul id="directory-list">
-            <li v-for="item in directories[what][bin]" v-if="isFilterMatch(item.value)" :key="item.href">
+            <li v-for="item in directories[what][bin]" v-if="isFilterMatch(item)" :key="item.href">
               <b-link :to="{name: item.rel, params: {id: extractIdFromHref(item.href)}}">
                 {{ item.value }}
               </b-link>
@@ -104,15 +104,21 @@ export default {
       return Object.keys(this.directories[directory] || {}).sort()
     },
 
+    binSize (bin) {
+      // Hackity hack
+      var directory = this.directories[this.what]
+      return directory[bin].filter(this.isFilterMatch).length
+    },
+
     binIndex (bin) {
       return 'index-' + (bin === '#' ? 'symbols' : bin)
     },
 
-    isFilterMatch (data) {
+    isFilterMatch (item) {
       var filter = this.filters[this.what]
 
       if (filter) {
-        return data.toLowerCase().indexOf(filter.toLowerCase()) !== -1
+        return item.value.toLowerCase().indexOf(filter.toLowerCase()) !== -1
       }
 
       return true
